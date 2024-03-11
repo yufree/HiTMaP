@@ -29,7 +29,7 @@ Imports:
     enviPat,rgl,multtest,XML,
     BiocManager,reshape2,readr,readxl,
     rcdk,colorspace,OneR,
-    gridExtra,grid,gtable,ChemmineR
+    gridExtra,grid,gtable,ChemmineR,future
 VignetteBuilder: knitr
 Suggests:
     knitr,
