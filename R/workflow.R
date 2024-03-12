@@ -89,7 +89,7 @@ imaging_identification<-function(
                Protein_feature_summary=TRUE,
                Peptide_feature_summary=TRUE,
                plot_ion_image=FALSE,
-               parallel=detectCores(),
+               parallel=future::availableCores(),
                spectra_segments_per_file=4,
                Segmentation=c("spatialKMeans","spatialShrunkenCentroids","Virtual_segmentation","none","def_file"),
                Segmentation_def="Segmentation_def.csv",
@@ -157,7 +157,7 @@ imaging_identification<-function(
 
 # Set the parallel processing parameter, multicore-fork method has been temporarily disabled due to the reduced performance in docker enviornment
   if (is.null(Thread)){
-  parallel=try(detectCores()/2)
+  parallel=try(future::availableCores()/2)
   if (parallel<1 | is.null(parallel)){parallel=1}
   BPPARAM=HiTMaP:::Parallel.OS(parallel)
   setCardinalBPPARAM(BPPARAM = BPPARAM)
@@ -169,7 +169,7 @@ imaging_identification<-function(
 
 
 
-  message(paste(try(detectCores()), "Cores detected,",parallel, "threads will be used for computing"))
+  message(paste(try(future::availableCores()), "Cores detected,",parallel, "threads will be used for computing"))
 
   message(paste(length(datafile), "files were selected and will be used for Searching"))
 
@@ -901,7 +901,7 @@ imaging_identification_target<-function(
   Protein_feature_summary=TRUE,
   Peptide_feature_summary=TRUE,
   plot_ion_image=FALSE,
-  parallel=detectCores(),
+  parallel=future::availableCores(),
   spectra_segments_per_file=4,
   Segmentation=c("spatialKMeans","spatialShrunkenCentroids","Virtual_segmentation","none","def_file"),
   Segmentation_def="Segmentation_def.csv",
@@ -969,7 +969,7 @@ imaging_identification_target<-function(
   
   # Set the parallel processing parameter, multicore-fork method has been temporarily disabled due to the reduced performance in docker enviornment
   if (is.null(Thread)){
-    parallel=try(detectCores()/2)
+    parallel=try(future::availableCores()/2)
     if (parallel<1 | is.null(parallel)){parallel=1}
     BPPARAM=HiTMaP:::Parallel.OS(parallel)
     setCardinalBPPARAM(BPPARAM = BPPARAM)
@@ -981,7 +981,7 @@ imaging_identification_target<-function(
   
   
   
-  message(paste(try(detectCores()), "Cores detected,",parallel, "threads will be used for computing"))
+  message(paste(try(future::availableCores()), "Cores detected,",parallel, "threads will be used for computing"))
   
   message(paste(length(datafile), "files were selected and will be used for Searching"))
   
