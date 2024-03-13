@@ -276,8 +276,8 @@ Parallel.OS<-function(Thread=1,bpprogressbar_t=TRUE,override_type=NULL,bpexportg
     }else{
       switch(Sys.info()[['sysname']],
              Windows= {BPPARAM=BiocParallel::SnowParam()},
-             Linux  = {BPPARAM=BiocParallel::MulticoreParam()},
-             Darwin = {BPPARAM=BiocParallel::MulticoreParam()}) 
+             Linux  = {BPPARAM=BiocParallel::SnowParam()},
+             Darwin = {BPPARAM=BiocParallel::SnowParam()}) 
     }
     
     BiocParallel::bpworkers(BPPARAM)=Thread
