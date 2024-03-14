@@ -1197,7 +1197,7 @@ PCA_ncomp_selection<-function(imdata,variance_coverage=0.80,outputdir=NULL){
     paste0(formatC(100 * x, format = format, digits = digits, ...), "%")
   }
 
-  PCA_imdata<-Cardinal::PCA(imdata,ncomp=5)
+  PCA_imdata<-Cardinal::PCA(imdata,ncomp=3)
   # if (!is.null(outputdir)){
   #   saveRDS(PCA_imdata,paste0(outputdir,"PCA_imdata.rds"))
   #   saveRDS(as.data.frame(summary(PCA_imdata)),paste0(outputdir,"PCA_imdata_df.rds"))
