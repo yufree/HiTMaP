@@ -57,7 +57,7 @@ imaging_Spatial_Quant<-function(
   #==============TRUE if you want to plot peptide in the Ion images folder, make sure there's imzml file in the folder
   plot_ion_image=FALSE,
   #==============Set a number if you want a parallel processing
-  parallel=detectCores()/2,
+  parallel=future::availableCores()/2,
   #==============Set a number (1 to maximum pixels in the data file) if you want to dig more peaks in the raw data
   spectra_segments_per_file=5,
   Smooth_range=1,
@@ -87,7 +87,7 @@ imaging_Spatial_Quant<-function(
   workdir<-base::dirname(datafile[1])
   setwd(workdir)
   closeAllConnections()
-  parallel=try(detectCores()/2)
+  parallel=try(future::availableCores()/2)
   if (parallel<1 | is.null(parallel)){parallel=1}
   BPPARAM=bpparam()
   BiocParallel::bpworkers(BPPARAM)=parallel
@@ -100,7 +100,7 @@ imaging_Spatial_Quant<-function(
     Rotate_IMG=paste0(workdir,"/image_rotation.csv")
   }
 
-  message(paste(try(detectCores()), "Cores detected,",parallel, "threads will be used for computing"))
+  message(paste(try(future::availableCores()), "Cores detected,",parallel, "threads will be used for computing"))
 
   message(paste(length(datafile), "files were selected and will be used for Searching"))
 
@@ -272,7 +272,7 @@ imaging_Spatial_Quant<-function(
       }
 
       message("Region_feature_analysis normalizaation")
-      #Spectrum_summary_norm=unlist(parLapply(cl=autoStopCluster(makeCluster(detectCores())),which(colnames(Spectrum_summary)!="ID"),par_norm_datacol_cluster,Spectrum_summary,clusterID))
+      #Spectrum_summary_norm=unlist(parLapply(cl=autoStopCluster(makeCluster(future::availableCores())),which(colnames(Spectrum_summary)!="ID"),par_norm_datacol_cluster,Spectrum_summary,clusterID))
       Spectrum_summary_norm=unlist(bplapply(which(colnames(Spectrum_summary)!="ID"),par_norm_datacol_cluster,Spectrum_summary,clusterID,norm_method="TIC",BPPARAM = BPPARAM))
       #a=as.list(Spectrum_summary[,which(colnames(Spectrum_summary)!="ID")])
       Spectrum_summary_norm=matrix(Spectrum_summary_norm,nrow = nrow(Spectrum_summary))
@@ -1197,7 +1197,7 @@ PCA_ncomp_selection<-function(imdata,variance_coverage=0.80,outputdir=NULL){
     paste0(formatC(100 * x, format = format, digits = digits, ...), "%")
   }
 
-  PCA_imdata<-Cardinal::PCA(imdata,ncomp=12)
+  PCA_imdata<-Cardinal::PCA(imdata,ncomp=3)
   # if (!is.null(outputdir)){
   #   saveRDS(PCA_imdata,paste0(outputdir,"PCA_imdata.rds"))
   #   saveRDS(as.data.frame(summary(PCA_imdata)),paste0(outputdir,"PCA_imdata_df.rds"))
@@ -3312,7 +3312,7 @@ Center_of_gravity_and_contour<-function(imdata,BPPARAM=NULL){
   z_dist=0.15*sqrt(((coord(imdata)$y-COG[3]))^2 *COG[2]/COG[4]+((coord(imdata)$x-COG[1]))^2)
   radius_rank=data.frame("Rank"=1:4,"Name"=c("Core","Inner","Barrier","Outer"),"Radius_L"=c(0,2.25,3,4),"Radius_U"=c(2.25,3,4,max(z_dist)))
 
-  #z_radius_segmentation=as.data.frame(unlist(parallel::parLapply(cl=autoStopCluster(makeCluster(detectCores())),1:length(z_dist),fun = radius_segmentation,z_dist,radius_rank)))
+  #z_radius_segmentation=as.data.frame(unlist(parallel::parLapply(cl=autoStopCluster(makeCluster(future::availableCores())),1:length(z_dist),fun = radius_segmentation,z_dist,radius_rank)))
   z_radius_segmentation=as.data.frame(unlist(bplapply(1:length(z_dist),fun = radius_segmentation,z_dist,radius_rank,BPPARAM = BPPARAM)))
 
   #z_radius_segmentation[i]=radius_rank['&'(z_dist[i] >= radius_rank$Radius_L, z_dist[i] < radius_rank$Radius_U),"Name"]
