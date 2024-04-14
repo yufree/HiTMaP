@@ -167,8 +167,6 @@ imaging_identification<-function(
   setCardinalBPPARAM(BPPARAM = BPPARAM)
   }
 
-
-
   message(paste(try(future::availableCores()), "Cores detected,",parallel, "threads will be used for computing"))
 
   message(paste(length(datafile), "files were selected and will be used for Searching"))
@@ -214,7 +212,7 @@ imaging_identification<-function(
                                                   Peptide_Summary_searchlist=Peptide_Summary_searchlist,
                                                   segmentation_num=spectra_segments_per_file,
                                                   threshold=threshold,rotate = Rotate_IMG,
-                                                  ppm=ppm,mzrange=mzrange,
+                                                  ppm=ppm,import_ppm=ppm,mzrange=mzrange,
                                                   Segmentation=Segmentation,
                                                   Segmentation_ncomp=Segmentation_ncomp,
                                                   PMFsearch = PMFsearch,
@@ -658,7 +656,7 @@ IMS_data_process<-function(datafile,
       
       if (preprocess$peakAlign$tolerance==0 ) {
         message("preprocess$peakAlign$tolerance set as zero, step bypassed")
-      }else if ('&'(!is.null(preprocess$peakAlign$tolerance),!is.null(preprocess$peakAlign$tolerance))){
+      }else if ('&'(!is.null(preprocess$peakAlign$tolerance),!is.null(preprocess$peakAlign$units))){
         message("preprocess$peakAlign$tolerance set as ", preprocess$peakAlign$tolerance)
         imdata_ed<- imdata_ed %>% peakAlign(tolerance=preprocess$peakAlign$tolerance, units=preprocess$peakAlign$units)
       }else {
