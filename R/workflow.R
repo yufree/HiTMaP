@@ -212,7 +212,7 @@ imaging_identification<-function(
                                                   Peptide_Summary_searchlist=Peptide_Summary_searchlist,
                                                   segmentation_num=spectra_segments_per_file,
                                                   threshold=threshold,rotate = Rotate_IMG,
-                                                  ppm=ppm,mzrange=mzrange,
+                                                  ppm=ppm,import_ppm=ppm,mzrange=mzrange,
                                                   Segmentation=Segmentation,
                                                   Segmentation_ncomp=Segmentation_ncomp,
                                                   PMFsearch = PMFsearch,
